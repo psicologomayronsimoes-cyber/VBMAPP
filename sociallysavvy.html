@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Socially Savvy · Registro Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12403C; --ink-soft:#3C6360; --paper:#F3F7F6; --card:#FFFFFF;
+  --line:#D9E4E2; --line-soft:#E8F0EE; --accent:#6B4FA0; --accent-soft:#6B4FA022;
+  --ok:#2E7D5B; --radius:14px;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --disp:'Fraunces',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:15px;line-height:1.45;padding-bottom:76px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit;font-size:15px;color:var(--ink)}
+a{color:inherit}
+
+header{background:var(--ink);color:#fff;padding:14px 16px 12px;position:sticky;top:0;z-index:30}
+header .brand{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+header h1{font-family:var(--disp);font-weight:700;font-size:19px;letter-spacing:.2px}
+header h1 span{font-weight:500;opacity:.85}
+header .who{font-size:12px;opacity:.85;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.avpick{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.avpick button{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.35);font-size:12px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center}
+.avpick button.on{border-color:#fff;background:var(--accent);box-shadow:0 0 0 2px rgba(255,255,255,.25)}
+
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;z-index:40;padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;padding:9px 2px 8px;font-size:10.5px;font-weight:600;color:var(--ink-soft);display:flex;flex-direction:column;align-items:center;gap:3px}
+nav button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--accent)}
+main{max-width:760px;margin:0 auto;padding:14px 12px 20px}
+.page{display:none}.page.on{display:block}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:12px}
+h2{font-family:var(--disp);font-size:19px;font-weight:700;margin-bottom:10px}
+h3{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--ink-soft);margin-bottom:4px}
+.field input,.field select,.field textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.field input:focus,.field select:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:12px;color:var(--ink-soft)}
+
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px}
+.stat{background:var(--line-soft);border-radius:10px;padding:9px 8px;text-align:center}
+.stat b{font-family:var(--disp);font-size:20px;display:block;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;color:var(--ink-soft);font-weight:600}
+
+.domrow{margin-bottom:10px}
+.domrow .top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.domrow .top b{font-weight:700}
+.domrow .barbg{background:var(--line-soft);border-radius:99px;height:9px;overflow:hidden}
+.domrow .barfg{height:100%;border-radius:99px;background:var(--accent)}
+
+.dom{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
+.dom>button.head{width:100%;display:flex;align-items:center;justify-content:space-between;padding:13px 14px;text-align:left}
+.dom .head .t{font-weight:700;font-size:15px}
+.dom .head .q{font-size:12px;color:var(--ink-soft);margin-top:2px}
+.dom .head .sum{font-family:var(--disp);font-weight:700;font-size:16px;font-variant-numeric:tabular-nums;color:var(--accent);flex-shrink:0;margin-left:10px;text-align:right}
+.dom .body{display:none;border-top:1px solid var(--line-soft)}
+.dom.open .body{display:block}
+.itm{padding:12px 14px;border-bottom:1px solid var(--line-soft)}
+.itm:last-child{border-bottom:none}
+.itm .desc{font-size:13.5px;margin-bottom:8px}
+.itm .desc b{font-family:var(--disp);color:var(--accent);margin-right:2px}
+.seg{display:flex;gap:5px}
+.seg button{flex:1;padding:8px 0;border:1.5px solid var(--line);border-radius:9px;font-weight:700;font-size:13px;background:#fff}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.seg button.na{font-size:10.5px}
+
+.lvlpills{display:flex;gap:6px;margin-bottom:4px;font-size:11px;color:var(--ink-soft);padding:0 2px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-soft);margin-top:8px}
+.legend .sw{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:4px;border:1px solid var(--line)}
+
+.peigroup{margin-bottom:14px}
+.peigroup h4{font-family:var(--disp);font-size:14.5px;font-weight:700;margin-bottom:6px}
+.peilist{font-size:13px}
+.peilist .row{padding:7px 0;border-bottom:1px solid var(--line-soft);display:flex;gap:8px}
+.peilist .row:last-child{border-bottom:none}
+.peilist .code{font-weight:700;color:var(--accent);flex-shrink:0;font-size:12px;background:var(--accent-soft);padding:1px 6px;border-radius:6px;height:fit-content}
+.peiempty{font-size:12.5px;color:var(--ink-soft);font-style:italic;padding:6px 0}
+
+.exbtn{width:100%;display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--card);margin-bottom:10px;text-align:left}
+.exbtn b{display:block;font-size:15px}
+.exbtn span{font-size:12px;color:var(--ink-soft)}
+.exbtn svg{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+#fileimp{display:none}
+.toast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s;z-index:60}
+.toast.on{opacity:1}
+
+#report{display:none}
+@media print{
+  body{padding:0;background:#fff;font-size:11px}
+  header,nav,main,.toast{display:none!important}
+  #report{display:block;padding:10mm}
+  #report h1{font-family:var(--disp);font-size:18px;margin-bottom:2mm}
+  #report .sub{font-size:11px;color:#444;margin-bottom:5mm}
+  #report table{border-collapse:collapse;width:100%;margin-bottom:5mm}
+  #report th,#report td{border:1px solid #999;padding:2px 5px;font-size:9.5px;text-align:left}
+  #report h2{font-size:13px;margin:4mm 0 2mm;font-family:var(--sans)}
+  .pbreak{page-break-before:always}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div style="display:flex;align-items:center;gap:8px">
+      <a href="index.html" title="Voltar ao menu" style="color:#fff;opacity:.85;flex-shrink:0;display:flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10"/></svg></a>
+      <div>
+        <h1>Socially Savvy <span>· Registro digital</span></h1>
+        <div class="who" id="hdrwho">Sem paciente</div>
+      </div>
+    </div>
+    <div class="avpick" id="avpick"></div>
+  </div>
+</header>
+
+<main>
+  <!-- PERFIL -->
+  <section class="page" id="pg-perfil">
+    <div class="card">
+      <h2>Resumo por área</h2>
+      <div id="domrows"></div>
+      <div class="stats" id="stats"></div>
+    </div>
+  </section>
+
+  <!-- ITENS -->
+  <section class="page" id="pg-itens">
+    <div class="hint" style="margin-bottom:10px">Pontue de 0 a 3, ou NA se a habilidade não foi avaliada.</div>
+    <div id="domlist"></div>
+  </section>
+
+  <!-- PEI -->
+  <section class="page" id="pg-pei">
+    <div class="card">
+      <h2>Objetivos (PEI)</h2>
+      <div class="hint" style="margin-bottom:10px">Gerado automaticamente: <b>prioritários</b> = habilidades pontuadas com 2 · <b>demais objetivos</b> = pontuadas com 0 ou 1. Pontuação 3 (dominada) e NA não entram.</div>
+      <div id="peicontent"></div>
+    </div>
+  </section>
+
+  <!-- DADOS / EXPORTAR -->
+  <section class="page" id="pg-dados">
+    <div class="card">
+      <h2>Dados da avaliação</h2>
+      <div class="field"><label>Nome da criança</label><input id="f-nome" placeholder="Nome completo"></div>
+      <div class="row2">
+        <div class="field"><label>Nascimento</label><input id="f-nasc" type="date"></div>
+        <div class="field"><label>Idade na avaliação</label><input id="f-idade" readonly placeholder="—"></div>
+      </div>
+      <div class="field"><label>Avaliador(a)</label><input id="f-aplicador" placeholder="Nome e CRP"></div>
+      <div class="field"><label>Data desta avaliação (Av. <span id="avlabel">1</span>)</label><input id="f-data" type="date"></div>
+      <div class="field"><label>Cor desta avaliação</label>
+        <select id="f-cor">
+          <option value="#6B4FA0">Roxo</option>
+          <option value="#C2453A">Vermelho</option>
+          <option value="#2C5FA8">Azul</option>
+          <option value="#2E7D5B">Verde</option>
+          <option value="#D98324">Laranja</option>
+        </select>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Exportar & backup</h3>
+      <button class="exbtn" id="btn-repfile">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M12 18v-6M9 15l3 3 3-3"/></svg>
+        <span><b>Baixar relatório</b><span>Resumo por área, gráfico e PEI completo. Abra e use Compartilhar → Imprimir para salvar em PDF</span></span>
+      </button>
+      <button class="exbtn" id="btn-csv">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M8 13h8M8 17h8"/></svg>
+        <span><b>Planilha CSV</b><span>Todos os 110 itens com pontuação, abre no Excel / Sheets</span></span>
+      </button>
+      <button class="exbtn" id="btn-json">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        <span><b>Backup (.json)</b><span>Salva tudo para continuar depois ou em outro aparelho</span></span>
+      </button>
+      <button class="exbtn" id="btn-import">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+        <span><b>Importar backup</b><span>Restaura um arquivo .json salvo anteriormente</span></span>
+      </button>
+      <input type="file" id="fileimp" accept=".json,application/json">
+      <button class="exbtn" id="btn-reset" style="border-color:#E5B8B4">
+        <svg viewBox="0 0 24 24" style="stroke:#B3423A"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg>
+        <span><b>Limpar tudo</b><span>Apaga todas as avaliações deste aparelho</span></span>
+      </button>
+    </div>
+  </section>
+</main>
+
+<nav id="nav">
+  <button data-p="perfil" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="8" width="7" height="13" rx="1"/></svg>Perfil</button>
+  <button data-p="itens"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8M21 12v6a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2h11"/></svg>Itens</button>
+  <button data-p="pei"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M12 3l1.5 2.5L16 6l-2 2 .5 3L12 9.5 9.5 11l.5-3-2-2 2.5-.5z"/><path d="M5 21v-4a7 7 0 0114 0v4"/></svg>PEI</button>
+  <button data-p="dados"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0114 0v1"/></svg>Dados</button>
+</nav>
+
+<div class="toast" id="toast"></div>
+<div id="report"></div>
+
+<script>
+const SAVVY_DOMAINS = [{"name": "Atenção Compartilhada", "prefix": "JA", "items": [{"code": "JA01", "desc": "Orienta-se (ex: olha ou faz uma resposta relacionada) quando um objeto é apresentado"}, {"code": "JA02", "desc": "Repete seu próprio comportamento para manter a interação social"}, {"code": "JA03", "desc": "Repete ação com brinquedo para manter a interação social"}, {"code": "JA04", "desc": "Usa o olhar fixo para manter a interação social (ou seja, olha diretamente para o rosto da outra pessoa por pelo menos um segundo várias vezes ao longo da interação)"}, {"code": "JA05", "desc": "Segue o apontar ou gesto para objetos"}, {"code": "JA06", "desc": "Segue o olhar para objetos"}, {"code": "JA07", "desc": "Mostra objetos aos outros e faz contato visual para compartilhar interesse"}, {"code": "JA08", "desc": "Aponta para objetos e faz contato visual para compartilhar interesse"}, {"code": "JA09", "desc": "Comenta sobre o que ele mesmo ou os outros estão fazendo (por exemplo, \"Eu estou (ação)\".)"}]}, {"name": "Brincar Social", "prefix": "SP", "items": [{"code": "SP01", "desc": "Envolve-se em jogos interativos sociais (por exemplo, Peek-a-Boo, jogo de cócegas)"}, {"code": "SP02", "desc": "Brinca em paralelo por cinco a dez minutos, próximo a pares com brinquedos de final definido (por exemplo, quebra-cabeças, classificadores de formas)"}, {"code": "SP03", "desc": "Brinca paralelamente de cinco a dez minutos, perto de pares com brinquedos de uso livre (por exemplo, blocos, caminhões, LEGOs)"}, {"code": "SP04", "desc": "Compartilha brinquedos / materiais (por exemplo, permite que outros brinquem com materiais, fornece materiais quando solicitado)"}, {"code": "SP05", "desc": "Brinca cooperativamente (dá e recebe instruções de pares) por cinco a dez minutos com brinquedos próximos (puzzles, classificadores de formas)"}, {"code": "SP06", "desc": "Brinca cooperativamente (dá e recebe instruções de pares) por cinco a dez minutos com brinquedos abertos (por exemplo, blocos, caminhões, LEGOs)"}, {"code": "SP07", "desc": "Alterna o turno como parte de um jogo estruturado e mantém a atenção até a conclusão do jogo"}, {"code": "SP08", "desc": "Executa jogos ao ar livre com um grupo até a conclusão da atividade (por exemplo, gato e rato, queimada)"}, {"code": "SP09", "desc": "Para a ação quando solicitado por um par"}, {"code": "SP10", "desc": "Termina a brincadeira/ jogo estruturado com o par apropriadamente"}, {"code": "SP11", "desc": "Desempenha um papel em um tema de jogo imaginativo e o sustenta, verbalmente e não verbalmente, para até três a cinco ações (por exemplo, restaurante, médico, bombeiro)"}, {"code": "SP12", "desc": "Troca brinquedos / materiais (por exemplo, participa de negociação para trocar cores de tinta durante um projeto de arte)"}, {"code": "SP13", "desc": "Convida pares para jogar em uma atividade preferida"}, {"code": "SP14", "desc": "Aborda os colegas e se junta apropriadamente na atividade em andamento"}, {"code": "SP15", "desc": "Aceita convite para jogar em uma atividade de escolha de colegas"}, {"code": "SP16", "desc": "Aceita perder jogos ou ser chamado de \"fora\""}, {"code": "SP17", "desc": "Permanece envolvido apropriadamente durante horários não estruturados (por exemplo, passa para uma nova atividade depois de concluída a primeira etapa; participa de um jogo adequado à idade)"}, {"code": "SP18", "desc": "Segue mudanças nas ideias de jogo dos outros e sustenta as mudanças durante o jogo aberto (por exemplo, mudanças no esquema de jogo / cenário)"}, {"code": "SP19", "desc": "Apropriadamente joga jogos que envolvem uma pessoa sendo \"Isso\""}, {"code": "SP20", "desc": "Demonstra flexibilidade em seguir as mudanças nas regras de um jogo ou em aceitar novas ideias de colegas"}, {"code": "SP21", "desc": "Planeja um esquema de jogo com um par e o segue (por exemplo, decide construir uma casa com blocos e depois constrói)"}, {"code": "SP22", "desc": "Identifica quais crianças são suas amigas e explica o porque"}, {"code": "SP23", "desc": "Aceita adequadamente que os gostos e interesses dos outros podem ser diferentes dos seus"}, {"code": "SP24", "desc": "Ganha sem se gabar"}]}, {"name": "Autorregulação", "prefix": "SR", "items": [{"code": "SR01", "desc": "Demonstra flexibilidade com novas atividades"}, {"code": "SR02", "desc": "Lida adequadamente com solicitações negadas"}, {"code": "SR03", "desc": "Levanta a mão e aguarda ser chamado para falar"}, {"code": "SR04", "desc": "Responde a estratégias calmantes utilizadas por um adulto"}, {"code": "SR05", "desc": "Identifica quando frustrado e apropriadamente pede uma pausa ou um item / atividade calmante"}, {"code": "SR06", "desc": "Segue as expectativas da sala de aula e demonstra flexibilidade durante as transições"}, {"code": "SR07", "desc": "Demonstra flexibilidade quando as coisas são diferentes do planejado"}, {"code": "SR08", "desc": "Demonstra flexibilidade quando atividades preferidas são interrompidas"}, {"code": "SR09", "desc": "Responde a correção sem exibir comportamentos desafiadores"}, {"code": "SR10", "desc": "Responde a erros cometidos por si ou por outros sem exibir comportamentos desafiadores"}, {"code": "SR11", "desc": "Demonstra consciência do próprio espaço e do espaço de outro (por exemplo, não pisar nos pés de outras pessoas ao caminhar em fila, não se aglomera a uma pessoa durante a hora da volta, mantendo a distância de um braço ao interagir com outras pessoas)"}, {"code": "SR12", "desc": "Modifica o comportamento em resposta ao feedback"}, {"code": "SR13", "desc": "Usa palavras apropriadas e tom de voz para recusar solicitações de outras pessoas"}, {"code": "SR14", "desc": "Defende a si mesmo (por exemplo, \"Eu não consegui um\". \"Não consigo ver\". \"Por favor, mude\". \"Pare\".) Sem exibir um comportamento desafiador (por exemplo, intimidação, provocações, agressão)."}, {"code": "SR15", "desc": "Pede ajuda durante atividades novas ou desafiadoras"}, {"code": "SR16", "desc": "Espera por ajuda, por um item solicitado ou quando direcionado para até um minuto sem exibir comportamentos desafiadores"}, {"code": "SR17", "desc": "Evita persistência em um tópico ou questão"}, {"code": "SR18", "desc": "Usa o nível de voz e tom de conversação ao falar"}]}, {"name": "Social/Emocional", "prefix": "SE", "items": [{"code": "SE01", "desc": "Reconhece emoções nos outros e em si mesmo (por exemplo, feliz, triste)"}, {"code": "SE02", "desc": "Dá uma explicação simples para o seu próprio estado emocional e dos outros (por exemplo, feliz, triste) quando perguntado"}, {"code": "SE03", "desc": "Mostra empatia em relação aos outros (por exemplo, \"Você está bem?\" Para o colega que caiu no parquinho; abraça um colega que está chorando)"}, {"code": "SE04", "desc": "Expressa emoções negativas sem exibir comportamentos desafiadores"}, {"code": "SE05", "desc": "Expressa nível apropriado de entusiasmo sobre as ações ou pertences dos outros"}, {"code": "SE06", "desc": "Antecipa como um colega pode responder ao seu comportamento (por exemplo, derrubar uma torre pode deixar um colega furioso; ajudar um colega pode fazê-la feliz) e responde de acordo"}]}, {"name": "Linguagem Social", "prefix": "SL", "items": [{"code": "SL01", "desc": "Responde a saudações / despedidas"}, {"code": "SL02", "desc": "Segue direções envolvendo adultos nomeados ou pares"}, {"code": "SL03", "desc": "Inicia saudações / despedidas"}, {"code": "SL04", "desc": "Se dirige aos pares pelo nome"}, {"code": "SL05", "desc": "Responde questões sociais (por exemplo, nome, idade, nomes de família, nomes de animais de estimação)"}, {"code": "SL06", "desc": "Faz perguntas sociais (por exemplo, nome, idade, nomes de família, nomes de animais de estimação)"}, {"code": "SL07", "desc": "Faz perguntas concretas sobre um item ou informações compartilhadas por outras pessoas (por exemplo, nome do objeto, localização do objeto, quem tem algo)"}, {"code": "SL08", "desc": "Solicita atenção (por exemplo, \"Veja o que eu fiz\". \"Observe até onde posso pular\".)"}, {"code": "SL09", "desc": "Pede a atenção do ouvinte adequadamente (por exemplo, chama o nome, toca no ombro)"}, {"code": "SL10", "desc": "Responde a iniciações de outras pessoas"}, {"code": "SL11", "desc": "Responde a perguntas sobre atividades em andamento"}, {"code": "SL12", "desc": "Compartilha informações sobre eventos pessoais, familiares e importantes (por exemplo, dia da escola, feriados, eventos familiares)"}, {"code": "SL13", "desc": "Responde a mais de cinco perguntas sobre um tópico preferido"}, {"code": "SL14", "desc": "Faz comentários recíprocos (por exemplo, a criança responde ao colega: \"Eu também gosto desse filme!\" \"Eu não tenho (isso), eu tenho (isso)\")"}, {"code": "SL15", "desc": "Compartilha informações sobre passado imediato ou eventos futuros"}, {"code": "SL16", "desc": "Responde a perguntas, faz perguntas ou faz comentários para manter conversas de três a quatro trocas"}, {"code": "SL17", "desc": "Responde adequadamente quando um par muda de tópico"}, {"code": "SL18", "desc": "Direciona o corpo e os olhos para o parceiro social quando fala"}, {"code": "SL19", "desc": "Direciona o corpo e os olhos para o parceiro social ao ouvir"}, {"code": "SL20", "desc": "Fala com frases polidas (por exemplo, \"Por favor\", \"Obrigado\", \"Desculpe\", \"Com licença\", \"Você é bem-vindo\")"}, {"code": "SL21", "desc": "Aceita pessoas diferentes (por exemplo, não faz comentários negativos)"}, {"code": "SL22", "desc": "Procura reparar ou esclarecer as falhas nas interações sociais"}, {"code": "SL23", "desc": "Conversa sobre tópicos apropriados à idade (ou seja, fala sobre tópicos semelhantes e de interesse para colegas)"}, {"code": "SL24", "desc": "Usa linguagem contextualmente apropriada / introduz o tópico"}]}, {"name": "Comportamento de Grupo/Sala de Aula", "prefix": "CG", "items": [{"code": "CG01", "desc": "Segue as regras do cronograma e da sala de aula (incluindo regras do parquinho)"}, {"code": "CG02", "desc": "Segue instruções verbais como parte das rotinas ou atividades da sala de aula (por exemplo, pegue materiais, guardar o lanche)"}, {"code": "CG03", "desc": "Reconhece os próprios pertences, de outros e do grupo"}, {"code": "CG04", "desc": "Guarda brinquedos / materiais em locais designados"}, {"code": "CG05", "desc": "Responde ao professor olhando ou vindo quando solicitado direta ou indiretamente"}, {"code": "CG06", "desc": "Imita um colega que está liderando músicas / atividades (por exemplo, O mestre mandou)"}, {"code": "CG07", "desc": "Responde a dicas indiretas (por exemplo, \"Onde estão seus amigos?\" Quando a criança precisa entrar na fila)"}, {"code": "CG08", "desc": "Usa equipamentos de playground apropriadamente"}, {"code": "CG09", "desc": "Ajuda os outros, espontaneamente e quando solicitado"}, {"code": "CG10", "desc": "Permanece no lugar em um grupo até ser chamado pelo professor (por exemplo, permanecer sentado até ser chamado para ir para a fila)"}, {"code": "CG11", "desc": "Prepara-se para atividade localizando área / materiais (por exemplo, cadeira, casaco)"}, {"code": "CG12", "desc": "Segue as direções durante novas atividades"}, {"code": "CG13", "desc": "Dá direções durante novas atividades"}, {"code": "CG14", "desc": "Permanece no lugar ao andar em fila e mantém o ritmo com o grupo"}, {"code": "CG15", "desc": "Repete palavras / ações de uma música, livro ou atividade lúdica"}, {"code": "CG16", "desc": "Aceita que alguns pares podem seguir regras ou cronogramas diferentes"}, {"code": "CG17", "desc": "Solicita permissão para usar os pertences dos outros"}, {"code": "CG18", "desc": "Participa de atividades manuais em um grupo pequeno, conduzidas por professores, durante dez minutos"}, {"code": "CG19", "desc": "Senta-se em silêncio por dez minutos"}, {"code": "CG20", "desc": "Participa a atividade de escuta em grupo pequeno conduzida pelo professor durante dez minutos"}, {"code": "CG21", "desc": "Responde em conjunto com o grupo à atividade liderada pelo professor ou colega"}, {"code": "CG22", "desc": "Segue instruções verbais básicas de dois a três passos em um grupo"}, {"code": "CG23", "desc": "Passa itens para os colegas (por exemplo, distribuir materiais, revezar-se para ver um objeto compartilhado e passar para a próxima pessoa)"}]}, {"name": "Linguagem Social/Não Verbal", "prefix": "NV", "items": [{"code": "NV1", "desc": "Retribui as interações não-verbais (por exemplo, high five, onda, legal, cumprimento com punho, sorriso)"}, {"code": "NV2", "desc": "Inicia interações não-verbais (por exemplo, high five, onda, polegar para cima- legal-, cumprimento com punho, sorriso) com adultos e colegas apropriados"}, {"code": "NV3", "desc": "Identifica ações básicas sem palavras (por exemplo, Charadas)"}, {"code": "NV4", "desc": "Demonstra um nível apropriado de afeto com base na história, no relacionamento e na familiaridade com a pessoa (por exemplo, abraça o pai, faz high five com amigo, não inicia com uma pessoa desconhecida"}, {"code": "NV5", "desc": "Segue gestos básicos e sinais não-verbais (por exemplo, para quando a pessoa levanta a mão, vem quando uma pessoa acena com uma mão)"}, {"code": "NV6", "desc": "Modificado próprio comportamento baseado na linguagem corporal, ações ou olhar dos outros"}]}];
+</script>
+<script>
+/* ---------- state ---------- */
+function blankAv(){ return {cor:null, data:'', scores:{}}; } // scores[code] = 0|1|2|3|'NA'
+let S = { nome:'', nasc:'', aplicador:'', avAtual:1, avs:{1:blankAv(),2:blankAv(),3:blankAv(),4:blankAv()} };
+const DEFCOLORS = {1:'#6B4FA0',2:'#C2453A',3:'#2C5FA8',4:'#2E7D5B'};
+function av(){ const a=S.avs[S.avAtual]; if(!a.cor)a.cor=DEFCOLORS[S.avAtual]; return a; }
+
+let canStore=false;
+try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); canStore=true; }catch(e){}
+function save(){ if(canStore){ try{ localStorage.setItem('sociallysavvy_v1', JSON.stringify(S)); }catch(e){} } }
+function load(){ if(canStore){ try{ const r=localStorage.getItem('sociallysavvy_v1'); if(r){ const o=JSON.parse(r); if(o&&o.avs) S=o; } }catch(e){} } }
+
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('on'),2200); }
+function setAccent(){ document.documentElement.style.setProperty('--accent', av().cor); document.documentElement.style.setProperty('--accent-soft', av().cor+'22'); }
+function idadeStr(nasc, ref){
+  if(!nasc) return '';
+  const b=new Date(nasc+'T12:00'), r=ref?new Date(ref+'T12:00'):new Date();
+  if(isNaN(b))return '';
+  let m=(r.getFullYear()-b.getFullYear())*12+(r.getMonth()-b.getMonth());
+  if(r.getDate()<b.getDate())m--;
+  return Math.floor(m/12)+' anos e '+(m%12)+' meses';
+}
+
+/* ---------- domain math ---------- */
+function domMax(dom){ return dom.items.length*3; }
+function domScore(a, dom){
+  let s=0;
+  dom.items.forEach(it=>{ const v=a.scores[it.code]; if(typeof v==='number') s+=v; });
+  return s;
+}
+function totalScore(a){ return SAVVY_DOMAINS.reduce((s,d)=>s+domScore(a,d),0); }
+function totalMax(){ return SAVVY_DOMAINS.reduce((s,d)=>s+domMax(d),0); }
+
+/* ---------- header ---------- */
+function renderHeader(){
+  const who=document.getElementById('hdrwho');
+  const a=av();
+  who.textContent = (S.nome||'Sem paciente') + ' · Av. '+S.avAtual + (a.data? ' · '+a.data.split('-').reverse().join('/') : '');
+  const pick=document.getElementById('avpick');
+  pick.innerHTML='';
+  for(let i=1;i<=4;i++){
+    const b=document.createElement('button');
+    b.textContent=i+'ª';
+    if(i===S.avAtual)b.classList.add('on');
+    b.style.background = (i===S.avAtual)? (S.avs[i].cor||DEFCOLORS[i]) : 'transparent';
+    b.onclick=()=>{ S.avAtual=i; setAccent(); renderAll(); save(); };
+    pick.appendChild(b);
+  }
+}
+
+/* ---------- perfil ---------- */
+function renderPerfil(){
+  const a=av();
+  const rows=document.getElementById('domrows');
+  rows.innerHTML = SAVVY_DOMAINS.map(dom=>{
+    const sc=domScore(a,dom), mx=domMax(dom), pct=mx? Math.round(100*sc/mx):0;
+    return '<div class="domrow"><div class="top"><span>'+esc(dom.name)+'</span><b>'+sc+'/'+mx+' · '+pct+'%</b></div>'+
+      '<div class="barbg"><div class="barfg" style="width:'+pct+'%"></div></div></div>';
+  }).join('');
+  const st=document.getElementById('stats');
+  const tot=totalScore(a), tmax=totalMax(), tpct=Math.round(100*tot/tmax);
+  st.innerHTML =
+    '<div class="stat"><b>'+tot+'<small style="font-size:12px;color:var(--ink-soft)">/'+tmax+'</small></b><span>Pontuação total</span></div>'+
+    '<div class="stat"><b>'+tpct+'%</b><span>Aproveitamento geral</span></div>';
+}
+
+/* ---------- itens ---------- */
+function renderItens(){
+  const a=av();
+  const list=document.getElementById('domlist');
+  const openSet = new Set([...list.querySelectorAll('.dom.open')].map(d=>d.dataset.dom));
+  list.innerHTML='';
+  SAVVY_DOMAINS.forEach(dom=>{
+    const wrap=document.createElement('div');
+    wrap.className='dom'+(openSet.has(dom.prefix)?' open':'');
+    wrap.dataset.dom=dom.prefix;
+    const sc=domScore(a,dom), mx=domMax(dom);
+    wrap.innerHTML='<button class="head"><span><span class="t">'+esc(dom.name)+'</span><span class="q">'+dom.items.length+' itens</span></span><span class="sum">'+sc+'/'+mx+'</span></button><div class="body"></div>';
+    wrap.querySelector('.head').onclick=()=>{ wrap.classList.toggle('open'); };
+    const body=wrap.querySelector('.body');
+    dom.items.forEach(it=>{
+      const v=a.scores[it.code];
+      const el=document.createElement('div');
+      el.className='itm';
+      el.innerHTML='<div class="desc"><b>'+it.code+'</b> '+esc(it.desc)+'</div>'+
+        '<div class="seg">'+
+          [0,1,2,3].map(n=>'<button data-v="'+n+'" '+(v===n?'class="on"':'')+'>'+n+'</button>').join('')+
+          '<button data-v="NA" class="na '+(v==='NA'?'on':'')+'">NA</button>'+
+        '</div>';
+      el.querySelectorAll('.seg button').forEach(bt=>{
+        bt.onclick=()=>{
+          const raw=bt.dataset.v;
+          const nv = raw==='NA' ? 'NA' : parseInt(raw,10);
+          if(a.scores[it.code]===nv){ delete a.scores[it.code]; } else { a.scores[it.code]=nv; }
+          save(); renderItens(); renderHeader();
+        };
+      });
+      body.appendChild(el);
+    });
+    list.appendChild(wrap);
+  });
+}
+
+/* ---------- PEI ---------- */
+function computePEI(a){
+  return SAVVY_DOMAINS.map(dom=>{
+    const prioritarios=[], demais=[];
+    dom.items.forEach(it=>{
+      const v=a.scores[it.code];
+      if(v===2) prioritarios.push(it);
+      else if(v===0||v===1) demais.push(it);
+    });
+    return {name:dom.name, prioritarios, demais};
+  });
+}
+function renderPEI(){
+  const a=av();
+  const pei=computePEI(a);
+  const el=document.getElementById('peicontent');
+  el.innerHTML = pei.map(p=>{
+    const prio = p.prioritarios.length
+      ? '<div class="peilist">'+p.prioritarios.map(it=>'<div class="row"><span class="code">'+it.code+'</span><span>'+esc(it.desc)+'</span></div>').join('')+'</div>'
+      : '<div class="peiempty">Nenhum item prioritário (pontuação 2) nesta área.</div>';
+    const dem = p.demais.length
+      ? '<div class="peilist">'+p.demais.map(it=>'<div class="row"><span class="code">'+it.code+'</span><span>'+esc(it.desc)+'</span></div>').join('')+'</div>'
+      : '<div class="peiempty">Nenhum item em 0–1 nesta área.</div>';
+    return '<div class="peigroup"><h4>'+esc(p.name)+'</h4>'+
+      '<div class="hint" style="margin-bottom:4px"><b>Prioritários</b></div>'+prio+
+      '<div class="hint" style="margin:8px 0 4px"><b>Demais objetivos</b></div>'+dem+
+      '</div>';
+  }).join('');
+}
+
+/* ---------- dados ---------- */
+function bindDados(){
+  const map={'f-nome':'nome','f-nasc':'nasc','f-aplicador':'aplicador'};
+  Object.entries(map).forEach(([id,k])=>{
+    const el=document.getElementById(id);
+    el.value=S[k]||'';
+    el.oninput=()=>{ S[k]=el.value; save(); renderHeader(); updIdade(); };
+  });
+  const a=av();
+  const fd=document.getElementById('f-data'), fc=document.getElementById('f-cor');
+  fd.value=a.data; fc.value=a.cor||DEFCOLORS[S.avAtual];
+  document.getElementById('avlabel').textContent=S.avAtual;
+  fd.onchange=()=>{ av().data=fd.value; save(); renderHeader(); updIdade(); };
+  fc.onchange=()=>{ av().cor=fc.value; setAccent(); save(); renderAll(); };
+  updIdade();
+}
+function updIdade(){ document.getElementById('f-idade').value = idadeStr(S.nasc, av().data||null) || '—'; }
+
+/* ---------- exports ---------- */
+function download(name, mime, content){
+  const blob=new Blob([content],{type:mime});
+  const u=URL.createObjectURL(blob);
+  const l=document.createElement('a'); l.href=u; l.download=name; document.body.appendChild(l); l.click();
+  setTimeout(()=>{URL.revokeObjectURL(u); l.remove();},400);
+}
+function slug(){ return (S.nome||'paciente').trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'') || 'paciente'; }
+
+document.getElementById('btn-json').onclick=()=>{
+  download('sociallysavvy-'+slug()+'.json','application/json',JSON.stringify(S,null,1));
+  toast('Backup gerado');
+};
+document.getElementById('btn-import').onclick=()=>document.getElementById('fileimp').click();
+document.getElementById('fileimp').onchange=e=>{
+  const f=e.target.files[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{ try{ const o=JSON.parse(r.result); if(o&&o.avs){ S=o; save(); setAccent(); renderAll(); bindDados(); toast('Backup importado'); } else toast('Arquivo inválido'); }catch(err){ toast('Arquivo inválido'); } };
+  r.readAsText(f);
+  e.target.value='';
+};
+document.getElementById('btn-csv').onclick=()=>{
+  const a=av();
+  const rows=[['Área','Código','Item','Pontuação']];
+  SAVVY_DOMAINS.forEach(dom=>dom.items.forEach(it=>{
+    const v=a.scores[it.code];
+    rows.push([dom.name, it.code, it.desc, v==null?'':String(v)]);
+  }));
+  rows.push([]);
+  rows.push(['Resumo','','Pontuação total', totalScore(a)+'/'+totalMax()]);
+  const csv='\uFEFF'+rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\r\n');
+  download('sociallysavvy-'+slug()+'-av'+S.avAtual+'.csv','text/csv;charset=utf-8',csv);
+  toast('CSV gerado');
+};
+const REPORT_CSS='body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#12403C;font-size:12px;padding:18px;max-width:820px;margin:0 auto}h1{font-family:Georgia,serif;font-size:19px;margin:0 0 4px}.sub{font-size:12px;color:#444;margin-bottom:16px}h2{font-size:14px;margin:18px 0 8px}table{border-collapse:collapse;width:100%;margin-bottom:12px}th,td{border:1px solid #999;padding:3px 6px;font-size:10.5px;text-align:left}.bar{background:#eee;border-radius:99px;height:8px;overflow:hidden}.barfg{height:100%;background:#6B4FA0}.noprint{background:#12403C;color:#fff;padding:10px 14px;border-radius:10px;margin-bottom:16px;font-size:12px}@media print{.noprint{display:none}.pbreak{page-break-before:always}}';
+function buildReportHTML(){
+  const a=av();
+  let h='<h1>Socially Savvy · Relatório de Avaliação</h1>';
+  h+='<div class="sub"><b>'+esc(S.nome||'—')+'</b>'+(S.nasc?' · Nasc.: '+S.nasc.split('-').reverse().join('/'):'')+
+     (idadeStr(S.nasc,a.data||null)?' · Idade: '+idadeStr(S.nasc,a.data||null):'')+
+     ' · Avaliação: '+S.avAtual+'ª'+(a.data?' · Data: '+a.data.split('-').reverse().join('/'):'')+
+     '<br>Avaliador(a): '+esc(S.aplicador||'—')+'</div>';
+  h+='<h2>Resumo por área</h2><table><tr><th>Área</th><th>Pontos</th><th>Máximo</th><th>%</th></tr>';
+  SAVVY_DOMAINS.forEach(dom=>{
+    const sc=domScore(a,dom), mx=domMax(dom), pct=mx?Math.round(100*sc/mx):0;
+    h+='<tr><td>'+esc(dom.name)+'</td><td>'+sc+'</td><td>'+mx+'</td><td>'+pct+'%<div class="bar"><div class="barfg" style="width:'+pct+'%"></div></div></td></tr>';
+  });
+  const tot=totalScore(a), tmax=totalMax();
+  h+='<tr><td><b>TOTAL</b></td><td><b>'+tot+'</b></td><td><b>'+tmax+'</b></td><td><b>'+Math.round(100*tot/tmax)+'%</b></td></tr></table>';
+
+  h+='<h2 class="pbreak">Objetivos (PEI)</h2>';
+  computePEI(a).forEach(p=>{
+    h+='<h2 style="font-size:12.5px;margin-top:10px">'+esc(p.name)+'</h2>';
+    h+='<table><tr><th style="width:70px">Prioritários (2)</th><th></th></tr>';
+    if(p.prioritarios.length) p.prioritarios.forEach(it=>{ h+='<tr><td>'+it.code+'</td><td>'+esc(it.desc)+'</td></tr>'; });
+    else h+='<tr><td colspan="2"><i>Nenhum</i></td></tr>';
+    h+='</table>';
+    h+='<table><tr><th style="width:70px">Demais (0–1)</th><th></th></tr>';
+    if(p.demais.length) p.demais.forEach(it=>{ h+='<tr><td>'+it.code+'</td><td>'+esc(it.desc)+'</td></tr>'; });
+    else h+='<tr><td colspan="2"><i>Nenhum</i></td></tr>';
+    h+='</table>';
+  });
+
+  h+='<h2 class="pbreak">Registro completo dos itens</h2><table><tr><th>Área</th><th>Cód.</th><th>Item</th><th>Pontos</th></tr>';
+  SAVVY_DOMAINS.forEach(dom=>dom.items.forEach(it=>{
+    const v=a.scores[it.code];
+    h+='<tr><td>'+esc(dom.name)+'</td><td>'+it.code+'</td><td>'+esc(it.desc)+'</td><td>'+(v==null?'—':v)+'</td></tr>';
+  }));
+  h+='</table>';
+  return h;
+}
+document.getElementById('btn-repfile').onclick=()=>{
+  const doc='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Relatório Socially Savvy · '+esc(S.nome||'Paciente')+'</title><style>'+REPORT_CSS+'</style></head><body>'+
+    '<div class="noprint">Para salvar em PDF: menu do navegador → <b>Compartilhar</b> ou <b>Imprimir</b> → <b>Salvar como PDF</b>. Este aviso não sai na impressão.</div>'+
+    buildReportHTML()+'</body></html>';
+  download('relatorio-sociallysavvy-'+slug()+'-av'+S.avAtual+'.html','text/html;charset=utf-8',doc);
+  toast('Relatório baixado');
+};
+document.getElementById('btn-reset').onclick=()=>{
+  if(confirm('Apagar todas as avaliações e dados deste aparelho? Esta ação não pode ser desfeita.')){
+    S={ nome:'', nasc:'', aplicador:S.aplicador, avAtual:1, avs:{1:blankAv(),2:blankAv(),3:blankAv(),4:blankAv()} };
+    save(); setAccent(); renderAll(); bindDados(); toast('Dados apagados');
+  }
+};
+
+/* ---------- nav ---------- */
+document.querySelectorAll('#nav button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+    document.getElementById('pg-'+b.dataset.p).classList.add('on');
+    if(b.dataset.p==='dados')bindDados();
+    if(b.dataset.p==='pei')renderPEI();
+    renderAll();
+    window.scrollTo(0,0);
+  };
+});
+
+function renderAll(){ renderHeader(); renderPerfil(); renderItens(); }
+
+load(); setAccent();
+document.getElementById('pg-perfil').classList.add('on');
+renderAll(); bindDados();
+if(!canStore){ toast('Aviso: salvamento automático indisponível aqui. Use o backup .json.'); }
+</script>
+</body>
+</html>
